@@ -1,0 +1,60 @@
+SELECT EXTRACT(YEAR FROM DATE '2017-08-25') AS DayOfMonth;
+SELECT CURRENT_DATE;
+SELECT CURRENT_TIMESTAMP;
+SELECT NOW() AS SysDateTime;
+
+
+-- CREATE OR REPLACE FUNCTION is_date(text) RETURNS BOOLEAN AS $$
+-- BEGIN
+--     -- Try to cast the input text to a date
+--     PERFORM $1::DATE;
+--     RETURN TRUE;
+-- EXCEPTION WHEN others THEN
+--     RETURN FALSE;
+-- END;
+-- $$ LANGUAGE plpgsql;
+
+-- SELECT is_date('2017-01-925');
+
+SELECT '2017-08-25'::DATE + INTERVAL '1 month' AS DateAdd;
+
+SELECT EXTRACT(YEAR FROM AGE('2017-08-25'::DATE, '2011-08-25'::DATE)) AS DateDiff;
+
+SELECT AGE('2003-03-04', current_date) AS DateDiff;
+
+SELECT MAKE_DATE(2018, 10, 31) AS DateFromParts;
+
+SELECT
+    CURRENT_DATE AS current_date,
+    CURRENT_TIME AS current_time,
+    TO_CHAR(CURRENT_DATE, 'Day') AS current_day_name,
+    EXTRACT(DOW FROM CURRENT_DATE) AS current_day_of_week;
+
+SELECT DATE_PART('epoch', CURRENT_TIMESTAMP) AS seconds_since_epoch;
+SELECT CAST(25.65 AS int);
+
+
+
+create table table1(id serial,date_val date,time_val time);
+
+insert into table1(date_val,time_val) values ('2024-05-01','09:12:11'),
+	('2022-01-01','09:12:11'),
+	('2024-03-04','19:11:11'),
+	('2021-02-01','21:21:21'),
+	('2022-01-21','00:12:12'),
+	(current_date,current_time);
+select*from table1;
+
+select*from table1 where date_val>'2022-01-01' and time_val>'09:00:00';
+select*from table1 where date_val<'2024-01-01' and time_val<'19:00:00';
+select*from table1 where date_val between '2024-01-01' and 
+	'2024-05-01' and time_val between '00:00:00' and '19:00:00';
+select*from table1 where date_val>='2022-01-01' and time_val>='09:00:00';
+select*from table1 where date_val<='2024-01-01' and time_val<='19:00:00';
+
+
+SELECT TO_CHAR(date_val, 'DD MM YYYY') AS formatted_date
+FROM table1;
+
+SELECT TO_CHAR(date_val, 'DD month YYYY') AS formatted_date
+FROM table1;

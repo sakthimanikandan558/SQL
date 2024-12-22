@@ -1,0 +1,39 @@
+SELECT total_amount FROM orders;
+
+SELECT*FROM products;
+SELECT*FROM orders;
+SELECT*FROM orderdetails;
+SELECT*FROM customer;
+
+
+INSERT INTO products (products_id,product_name,category,price) VALUES 
+	(11,'PS5','Gaming',70000),
+	(12,'TWS','Accessries',999);
+
+--Task 1
+SELECT total_amount FROM orders WHERE total_amount> (SELECT AVG(total_amount) FROM orders) ;
+
+--Task 2 Using Join
+SELECT products.product_name FROM products 
+	LEFT JOIN orderdetails ON products.products_id=orderdetails.products_id 
+	WHERE orderdetails.products_id IS NULL;
+
+--Task 2 Using Sub Query
+SELECT product_name FROM products WHERE products_id NOT IN  (SELECT products_id FROM orderdetails) ; 
+
+--Task 3 Using Join
+SELECT customer.customer_name,customer.reg_date,products.product_name FROM customer 
+INNER JOIN orders ON customer.customer_id=orders.customer_id
+INNER JOIN orderdetails ON orders.order_id=orderdetails.order_id
+INNER JOIN products ON products.products_id=orderdetails.products_id 
+WHERE (customer.reg_date>'2023-01-01') AND (customer.reg_date<'2023-12-31');
+
+
+--Using Normal Methos
+SELECT c.customer_id,c.customer_name,p.product_name,c.reg_date FROM customer AS c ,orders AS o,
+orderdetails AS od, products AS p WHERE c.customer_id=o.customer_id AND o.order_id=od.order_id
+AND p.products_id=od.products_id AND (c.reg_date>'2023-01-01') AND (c.reg_date<'2023-12-31');
+
+
+
+

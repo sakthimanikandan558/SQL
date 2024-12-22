@@ -1,0 +1,36 @@
+SELECT * FROM production.culture;
+SELECT * FROM production.culture;
+
+SELECT current_user;
+SELECT max(addressid) from person.address;
+
+SELECT schema_name
+FROM information_schema.schemata;
+
+SELECT*FROM sales.creditcard where expyear>=2008;
+
+SELECT*FROM sales.salesorderdetail where unitprice<874;
+
+SELECT Count(salesorderdetailid) from sales.salesorderdetail;
+
+SELECT * FROM sales.countryregioncurrency;
+SELECT EXTRACT(year from(orderdate)) FROM sales.salesorderheader;
+
+SELECT SUM(taxrate) FROM sales.salestaxrate;
+SELECT AVG(taxrate) FROM sales.salestaxrate;
+
+SELECT * FROM sales.salesreason;
+SELECT reasontype,COUNT(reasontype) AS counts FROM sales.salesreason GROUP BY(reasontype);
+
+SELECT * FROM sales.personcreditcard;
+SELECT * FROM sales.personcreditcard WHERE businessentityid>300 AND businessentityid<450;
+SELECT * FROM sales.personcreditcard WHERE businessentityid BETWEEN 300 AND 450;
+
+SELECT * FROM sales.salesorderdetail;
+SELECT * FROM sales.salesorderheader;
+
+--JOIN 
+SELECT sales.salesorderdetail.salesorderid,sales.salesorderdetail.orderqty,sales.salesorderdetail.unitprice,
+	sales.salesorderheader.orderdate FROM sales.salesorderdetail JOIN sales.salesorderheader ON 
+	sales.salesorderdetail.salesorderid=sales.salesorderheader.salesorderid;
+

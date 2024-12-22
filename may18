@@ -1,0 +1,68 @@
+select*from customers;
+insert into table1 values(8,'2021-01-01','12:00:00') 
+	
+SELECT TO_CHAR(time_val, 'HH12:MI:SS AM') AS formatted_time
+FROM table1;
+
+SELECT TO_CHAR(time_val, 'HH24:MI:SS') AS formatted_time_24
+FROM table1;
+
+ALTER TABLE table1 
+ALTER COLUMN date_val TYPE VARCHAR(20);
+
+ALTER TABLE table1
+ALTER COLUMN time_val TYPE TIME USING time_val::time;
+
+ALTER TABLE table1
+ALTER COLUMN date_val TYPE DATE USING TO_DATE(date_val, 'YYYY-MM-DD');
+
+SELECT CONCAT('My', 'S', 'QL');
+
+
+--String Functions
+SELECT LENGTH('Hello, World!');
+SELECT LENGTH(email) FROM customers;
+
+SELECT POSITION('World' IN 'Hello, World!');
+SELECT POSITION('@' IN email) FROM customers;
+
+SELECT SUBSTRING('Hello, World!' FROM 8 FOR 5);
+SELECT SUBSTRING(email FROM 1 FOR 2) FROM customers;
+
+SELECT UPPER('Hello, World!');
+SELECT UPPER(email) FROM customers;
+
+SELECT 'STARK, ' || 'SAKTHI';
+SELECT email|| 'HELLO' FROM customers;
+
+SELECT TRIM(BOTH ' ' FROM '   Hello, World!  ');
+
+SELECT LPAD('Hello', 20, '*');
+SELECT LPAD(email,20,'@') FROM customers;
+
+SELECT RPAD('Hello', 10, '*');
+SELECT RPAD(email,40,'@') FROM customers;
+
+SELECT REPEAT('Hello', 3);
+SELECT REPEAT(email || ' ', 3) FROM customers;
+
+SELECT REPLACE('Hello, World!', 'World', 'PostgreSQL');
+SELECT REPLACE(email, '@', 'HIIIII') FROM customers;
+
+SELECT ASCII('A');
+
+SELECT LTRIM('xyxtrimyxyx', 'xyx');
+
+SELECT RTRIM('xyxtrimyyx', 'xy');
+
+SELECT REVERSE('Hello, World!');
+SELECT REVERSE(email) FROM customers;
+
+--Numeric function
+SELECT * FROM products;
+SELECT SUM(price) FROM products;
+SELECT MAX(price) FROM products;
+SELECT SQRT(price) FROM products;
+SELECT CEIL(RANDOM()*11);
+SELECT POWER(price, 3) FROM products; 
+SELECT ABS(-5);

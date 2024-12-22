@@ -1,0 +1,119 @@
+--Create Department table
+create table department(
+	department_id serial primary key,
+	department_name varchar(225) unique,
+	department_key varchar(225)
+);
+
+--Create Projects table
+create table projects(
+	project_id serial primary key,
+	project_name varchar(225) not null unique,
+	is_active boolean default true,
+	department_id int ,
+	start_date date,
+	end_date date,
+	foreign key (department_id) references department (department_id)
+);
+
+--Create employees table
+create table employees(
+	employee_id serial primary key,
+	employee_name varchar(225) not null,
+	project_id int,
+	salary float,
+	is_active boolean default true,
+	foreign key (project_id) references projects (project_id)
+);
+--insert values in department table
+insert into department (department_name) values('FrontEnd'),
+	('BackEnd'),
+	('Testing');
+
+--insert values in employee table
+insert into employees (employee_name,project_id,salary) values
+    ('Sakthi', 1, 50000.00),
+    ('Murugan', 2, 60000.00),
+    ('Ganesh', 4, 55000.00),
+    ('Maha', 3, 48000.00),
+    ('Siva sankari', 1, 12000.00),
+    ('Rasathi', 4, 53000.00),
+    ('Priya', 1, 51000.00),
+    ('Balaji', 5, 58000.00),
+    ('Kali', 6, 56000.00),
+    ('Raja', 7, 54000.00),
+    ('Kavi', 8, 9000.00),
+    ('Sophia', 3, 7000.00),
+    ('Aarthi', 1, 55000.00),
+    ('Raju', 2, 22000.00),
+    ('Siva', 5, 9000.00),
+    ('Isabella', 2, 52000.00),
+    ('Joseph', 6, 58000.00),
+    ('Robin', 8, 14000.00),
+    ('Christopher', 4, 5000.00),
+    ('Sivaram', 7, 6000.00),
+    ('Karthi', 8, 9000.00),
+    ('Sankar', 3, 71000.00),
+    ('Raj', 1, 55000.00),
+    ('Muthu Kumar', 2, 25000.00),
+    ('Sia', 5, 9000.00),
+    ('Manoj', 2, 52000.00),
+    ('Munees', 6, 58000.00),
+    ('Ravi', 8, 34000.00),
+    ('Nantha', 4, 5000.00),
+    ('Mari', 7, 6000.00)	
+	;
+insert into employees (employee_name,project_id,salary,is_active) values
+    ('Seenu', 1, 15000.00,false),
+    ('Saravana', 1, 20000.00,false),
+    ('Arul', 1, 20000.00,false),
+    ('Harini', 1, 11000.00,false),
+	('Sarni', 4, 21000.00,false),
+	('Viji' ,2,21000.00,false);
+
+insert into employees (employee_name,project_id,salary,is_active) values
+    ('Mohamad', 1, 15000.90,false);
+
+--insert values in project table
+insert into projects (project_name,department_id,start_date,end_date) values
+	('kalyan',1,'2020-05-12','2021-11-12'),
+	('task management system',2,'2020-07-01','2021-01-01')
+	('Library management system',2,'2021-08-04','2021-03-03'),
+	('Monitoring System',3,'2022-05-05','2021-03-04'),
+	('Restaurant website',1,'2022-05-09','2023-04-04'),
+	('Mobile website',1,'2021-07-06','2021-12-01'),
+	('Resume Builder',3,'2022-08-01','2023-01-01'),
+	('Weather forecasting system',2,'2021-02-02','2022-02-01');
+
+insert into projects (project_name,is_active,department_id,start_date,end_date) values
+	('Stock Manangement System',false,1,'2021-05-12','2022-11-12'),
+	('Chat messaging app',false,2,'2023-07-12','2024-11-12'),
+	('Quiz app',false,3,'2021-05-12','2021-11-12'),
+	('Student database management',false,2,'2023-01-12','2024-01-01');
+
+--5.update department_key using case
+update department
+set department_key = 
+    case 
+        when department_name = 'Testing' then 'Selenium'
+        when department_name = 'FrontEnd' then 'React'
+        when department_name = 'BackEnd' then 'Java Spring'
+    end;
+
+--6.Get projects start_date from may 1st to current date
+select*from projects where start_date between '2021-05-01' and current_date;
+
+--7.7. Get employees who had salary more than 25000 and less than 10000
+SELECT * FROM employees WHERE salary < 10000.0;
+SELECT * FROM employees WHERE salary > 25000.0;
+
+--8. List employees based on salary - who had most salary - active employees
+select * from employees where is_active order by salary desc;
+
+--9.Get active projects with department_id 1,2,3 and start date is greater than may 1st
+select * from projects where is_active and department_id in (1, 2, 3) and start_date > '2022-05-01';
+
+select* from employees;
+
+SELECT CAST(salary AS varchar) AS salary_int FROM employees;
+SELECT CAST(salary AS integer) AS salary_int FROM employees;

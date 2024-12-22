@@ -1,0 +1,105 @@
+CREATE TABLE employee_details (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100),
+    position VARCHAR(100),
+    salary NUMERIC,
+    modified TIMESTAMP
+);
+
+CREATE TABLE employee_log (
+    log_id SERIAL PRIMARY KEY,
+    employee_id INT,
+    action VARCHAR(10),
+    action_timestamp TIMESTAMP,
+    old_name VARCHAR(100),
+    old_position VARCHAR(100),
+    old_salary NUMERIC,
+    new_name VARCHAR(100),
+    new_position VARCHAR(100),
+    new_salary NUMERIC
+);
+
+
+CREATE OR REPLACE FUNCTION log_insert()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO employee_log (
+        employee_id, action, action_timestamp,
+        new_name, new_position, new_salary
+    )
+    VALUES (
+        NEW.id, 'INSERT', NOW(),
+        NEW.name, NEW.position, NEW.salary
+    );
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION log_update()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO employee_log (
+        employee_id, action, action_timestamp,
+        old_name, old_position, old_salary,
+        new_name, new_position, new_salary
+    )
+    VALUES (
+        NEW.id, 'UPDATE', NOW(),
+        OLD.name, OLD.position, OLD.salary,
+        NEW.name, NEW.position, NEW.salary
+    );
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION log_delete()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO employee_log (
+        employee_id, action, action_timestamp,
+        old_name, old_position, old_salary
+    )
+    VALUES (
+        OLD.id, 'DELETE', NOW(),
+        OLD.name, OLD.position, OLD.salary
+    );
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+-- Trigger for INSERT
+CREATE TRIGGER after_employee_insert
+AFTER INSERT ON employee_details
+FOR EACH ROW
+EXECUTE FUNCTION log_insert();
+
+-- Trigger for UPDATE
+CREATE TRIGGER after_employee_update
+AFTER UPDATE ON employee_details
+FOR EACH ROW
+EXECUTE FUNCTION log_update();
+
+-- Trigger for DELETE
+CREATE TRIGGER after_employee_delete
+AFTER DELETE ON employee_details
+FOR EACH ROW
+EXECUTE FUNCTION log_delete();
+
+insert into employee_details (name,position,salary,modified) values ('Stark','SD','40000',now()),
+	('Tony','SD','30000',now());
+
+update employee_details set position='CEO' where id=1;
+delete from employee_details where id=2;
+select *from employee_details;
+select*from employee_log;
+
+delete from employee_details where id=4;
+
+update employee_details set naselect*from employee_log;
+select*from employee_log;
+me='Bruce' where id=7;
+
+
+

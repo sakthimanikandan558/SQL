@@ -1,0 +1,21 @@
+select*from department;
+select*from projects;
+select*from employees;
+update department set department_key=null where department_id=3;
+--JOIN
+select*from projects full outer join employees on projects.project_id=employees.project_id
+	where (employees.salary<10000) and (start_date between '2022-05-01' and current_date) and 
+	( department_id IN (1, 2, 3) AND start_date > '2022-05-01');
+
+select projects.project_id,projects.project_name,projects.start_date,employees.employee_id,
+	employees.employee_name,employees.salary from employees inner join projects on 
+	projects.project_id=employees.project_id where (employees.salary<10000) and 
+	(start_date between '2022-05-01' and current_date) and 
+	( department_id IN (1, 2, 3) AND start_date > '2022-05-01');
+
+
+select projects.project_id,projects.project_name,projects.start_date,employees.employee_id,
+	employees.employee_name,employees.salary from employees inner join projects on 
+	projects.project_id=employees.project_id where (employees.salary<10000) or 
+	(start_date between '2022-05-01' and current_date) or 
+	( department_id in (1, 2, 3) or start_date > '2022-05-01');

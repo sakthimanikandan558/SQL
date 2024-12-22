@@ -1,0 +1,52 @@
+CREATE TABLE sales (
+    sale_id SERIAL PRIMARY KEY,
+    sale_date DATE,
+    product_id INT,
+    amount FLOAT
+);
+
+INSERT INTO sales (sale_date, product_id, amount) VALUES
+('2023-01-01', 1, 100.00),
+('2023-01-01', 2, 150.00),
+('2023-01-02', 1, 200.00),
+('2023-01-02', 2, 250.00),
+('2023-01-03', 1, 300.00),
+('2023-01-03', 3, 350.00),
+('2023-01-03', 3, 100.00);
+
+
+SELECT*FROM sales;
+SELeCT*FROM products;
+
+--GROUP BY
+SELECT product_id,SUM(amount) FROM sales GROUP BY product_id ORDER BY product_id;
+SELECT product_id,AVG(amount) FROM sales GROUP BY product_id ORDER BY product_id;
+SELECT product_id,COUNT(product_id) FROM sales GROUP BY product_id ORDER BY product_id;
+SELECT sale_date, product_id, SUM(amount) AS total_sales
+FROM sales
+GROUP BY sale_date, product_id ORDER BY product_id;
+SELECT product_id, SUM(amount) AS total_sales
+FROM sales
+GROUP BY product_id
+HAVING SUM(amount) > 350;
+
+--MIN,MAX,...
+SELECT MAX(amount) FROM sales;
+SELECT MIN(amount) FROM sales;
+SELECT AVG(amount) FROM sales;
+SELECT SUM(amount) FROM sales;
+
+--UNION
+SELECT price FROM products UNION SELECT amount FROM sales;
+
+--COUNT
+SELECT COUNT(amount) FROM sales;
+
+SELECT DISTINCT amount
+FROM sales;
+
+SELECT employee_name
+FROM employees
+WHERE employee_name LIKE 'S%';
+
+select*from employees

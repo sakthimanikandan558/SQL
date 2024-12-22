@@ -1,0 +1,84 @@
+create table projects(
+	project_id serial primary key,
+	project_name varchar(225) not null unique,
+	is_active boolean default true,
+	department_id int ,
+	start_date date,
+	end_date date
+);
+
+insert into projects (project_name,department_id,start_date,end_date) values
+	('kalyan',1,'2020-05-12','2021-11-12'),
+	('task management system',2,'2020-07-01','2021-01-01'),
+	('Library management system',2,'2021-08-04','2021-03-03'),
+	('Monitoring System',3,'2022-05-05','2021-03-04'),
+	('Restaurant website',1,'2022-05-09','2023-04-04'),
+	('Mobile website',1,'2021-07-06','2021-12-01'),
+	('Resume Builder',3,'2022-08-01','2023-01-01'),
+	('Weather forecasting system',2,'2021-02-02','2022-02-01');
+
+create table employees(
+	employee_id serial primary key,
+	employee_name varchar(225) ,
+	project_id int,
+	salary float,
+	is_active boolean default true,
+	foreign key (project_id) references projects (project_id)
+	);
+
+ALTER TABLE employees add constraint fk foreign key(project_id) references projects(project_id);
+
+
+ALTER TABLE employees
+DROP CONSTRAINT fk;
+
+ALTER TABLE employees
+DROP CONSTRAINT employees_pkey;
+
+alter table employees add primary key(employee_id);
+
+
+
+insert into employees (employee_name,project_id,salary) values
+    ('Sakthi', 1, 50000.00),
+    ('Murugan', 2, 60000.00),
+    ('Ganesh', 4, 55000.00),
+    ('Maha', 3, 48000.00),
+    ('Siva sankari', 1, 12000.00);
+
+SELECT*from employees;
+
+alter table employees
+
+create index in1 on employees(employee_id,employee_name,salary);
+drop index in1;
+select salary from employees where employee_id=4;
+
+
+SELECT 
+  column_name, 
+  data_type, 
+  character_maximum_length, 
+  is_nullable, 
+  column_default 
+FROM 
+  information_schema.columns
+WHERE 
+  table_name = 'projects';
+
+drop table person;
+
+
+
+create table person(personID int primary key,lastName varchar(225),firstName varchar(225),age int);
+create table orders(orderId int,orderNo int,personID int,	foreign key (personID) references person (personID));
+
+select*from person;
+
+insert into person values(1,'Harsan','Ola',22);
+insert into orders values(1,77542,1);
+
+select orderNo from orders where personId=(Select personId from person 
+WHERE firstname='Ola')insert into person values(1,'Harsan','Ola',22);
+insert into orders values(1,77542,1);
+

@@ -1,0 +1,77 @@
+CREATE SCHEMA admin;
+CREATE SCHEMA users;
+
+CREATE TABLE admin.admin_details(
+	id SERIAL PRIMARY KEY,
+	name varchar(40),
+	email varchar(40)
+);
+
+CREATE TABLE users.user_details(
+	id SERIAL PRIMARY KEY,
+	name varchar(40),
+	email varchar(40),
+	phone bigint
+);
+
+INSERT INTO admin.admin_details(name,email) VALUES
+-- ('pandiselvi','pandiselvi@gmail.com'),
+-- ('Raja','Raja@gmail.com'),
+('Parama','Parama@gmail.com');
+
+INSERT INTO users.user_details(name,email,phone) VALUES
+('Sakthi','starksakthi558@gmail.com',9025712828),
+('Murugan','Murugan25@gmail.com',8270151339),
+('Ganesh','Ganesh@gmail.com',8025719012),
+('Maha','Maha@gmail.com',8239023119),
+('SivaSankari','Sivasankari@gmail.com',9023891020);
+
+CREATE ROLE sakthi WITH LOGIN PASSWORD 'password';
+CREATE ROLE stark;
+
+CREATE ROLE group1;
+
+CREATE ROLE myadmin;
+CREATE ROLE tony;
+
+GRANT USAGE ON SCHEMA admin TO myadmin;
+GRANT USAGE ON SCHEMA users TO myadmin;
+
+GRANT USAGE ON SCHEMA users TO tony;
+
+
+GRANT USAGE ON SCHEMA admin.admin_details TO myadmin;
+GRANT USAGE ON SCHEMA users TO myadmin;
+
+GRANT SELECT ON admin.admin_details TO myadmin;
+GRANT SELECT,UPDATE,INSERT,DELETE ON users.user_details TO myadmin;
+
+
+GRANT SELECT,UPDATE,INSERT,DELETE ON users.user_details TO tony;
+
+
+SET ROLE myadmin;
+SET ROLE postgres;
+SET ROLE tony;
+SET ROLE sakthi;
+
+select current_user;
+SELECT * FROM admin.admin_details;
+SELECT * FROM users.user_details;
+
+REVOKE SELECT ON TABLE users.user_details FROM tony;
+
+ALTER ROLE stark RENAME TO thanos;
+
+SELECT rolname
+FROM pg_roles;
+
+INSERT INTO users.user_details(id,name,email,phone) VALUES
+(12,'Sakthi','starksakthi558@gmail.com',9025712828),
+(13,'Murugan','Murugan25@gmail.com',8270151339);
+
+ALTER ROLE sakthi WITH SUPERUSER;
+
+CREATE ROLE role1 WITH LOGIN PASSWORD 'monkeydluffy';
+
+SET ROLE role1;

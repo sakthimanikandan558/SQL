@@ -1,0 +1,30 @@
+CREATE TABLE Persons (
+    PersonID int PRIMARY KEY,
+    LastName varchar(255),
+    FirstName varchar(255) NOT NULL,
+    Address varchar(255),
+    City varchar(255)
+);
+Insert Into Persons Values(1,'sakthi','stark','new street','Svks');
+Insert Into Persons Values(2,'Monkey','D Luffy','GrandLine','Japan');
+Insert Into Persons Values(3,'Rorona','Zoro','GrandLine','Japan');
+Insert Into Persons Values(4,'Gold D','Roger','LougeTown','EastBlue');
+select*from Persons;
+-- ALTER TABLE Persons ALTER COLUMN FirstName varchar NOT NULL;
+alter table Persons alter City set default 'East Blue';
+alter table Persons add column DevilFruit varchar;
+alter table Persons rename Address to address1;
+delete from Persons where PersonID=4;
+alter table Persons drop column DevilFruit;
+-- insert into Persons(DevilFruit) values ('SunGodNika'); 
+update Persons set DevilFruit = 'GomuGomu' where PersonID=2;
+alter table Persons rename to OnePiece;
+select*from OnePiece;
+select df from OnePiece;
+select*into df from OnePiece;
+select*from df;
+alter table OnePiece drop column DevilFruit;
+alter table OnePiece add column  DF varchar(220) default 'SUNGOD NIKA';
+update OnePiece set df='darkdark' where personid=1;
+truncate table Persons;
+drop table Persons; 

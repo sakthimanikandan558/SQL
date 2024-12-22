@@ -1,0 +1,68 @@
+--SEQUENCE
+CREATE SEQUENCE customer_id_seq
+    START WITH 10
+    INCREMENT BY 3
+    NO CYCLE;
+
+CREATE TABLE customers (
+    customer_id INT PRIMARY KEY DEFAULT NEXTVAL('customer_id_seq'),
+    customer_name VARCHAR(50),
+    email VARCHAR(100)
+);
+
+insert into customers (customer_name, email) values
+	('sakthi','sakthi@gmail.com'),
+	('stark','stark@gmail.com'),
+	('Tony','tony@gmail.com');
+select*from customers;
+
+--JOINS
+CREATE TABLE products (
+	productid serial,
+	productname varchar(200),
+	cateid int,
+	price int,
+	foreign key (cateid) references cate (cateid)
+);
+CREATE TABLE cate (
+	cateid int primary key,
+	catename varchar(200),
+	des varchar(200)
+	-- foreign key (cateid) references products (cateid)
+);
+
+insert into products (productname,cateid,price) values 
+('milk',1,18),
+('rose',2,19),
+('Syrup',4,10);
+
+insert into cate (cateid,catename,des) values 
+(1,'Chais','Soft drinks, coffees, teas, beers, and ales'),
+(2,'Chang','Soft drinks, coffees, teas, beers, and ales'),
+(3,'stark	','Desserts, candies, and sweet breads'),
+(4,'tony	','Desserts, candies, and sweet breads'),
+(5,'hulk','Desserts, candies, and sweet breads');
+
+-- drop table products;
+select productname,price,des from products full outer join cate on products.cateid=cate.cateid;
+
+SELECT productname FROM products
+UNION
+SELECT des FROM cate;
+-- ORDER BY City;
+
+--SELF JOIN
+CREATE TABLE employees1 (
+    employee_id INT PRIMARY KEY,
+    employee_name VARCHAR(100),
+    manager_id INT REFERENCES employees(employee_id)
+);
+
+INSERT INTO employees1 (employee_id, employee_name, manager_id) VALUES (1, 'John', NULL);
+INSERT INTO employees1 (employee_id, employee_name, manager_id) VALUES (2, 'Jane', 1);
+INSERT INTO employees1 (employee_id, employee_name, manager_id) VALUES (3, 'Bob', 1);
+INSERT INTO employees1 (employee_id, employee_name, manager_id) VALUES (4, 'Alice', 2);
+
+SELECT e.employee_name AS employee, m.employee_name AS manager
+FROM employees1 e
+LEFT JOIN employees1 m ON e.manager_id = m.employee_id;
